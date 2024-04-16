@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div></div>
+
+  <script>
+    const h1Tag = document.createElement('h1')
+    console.log(h1Tag)
+    h1Tag.textContent = '제목'
+    const divTag = document.querySelector('div')
+    divTag.appendChild(h1Tag)
+
+    divTag.removeChild(h1Tag)
+  </script>
+</body>
+
+</html>
