@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const scores = [90, 80, 70, 60, 40]
+    const length = scores.length
+    console.log(length)
+
+    let total_score = 0
+    // for .. of 문으로 코드 작성
+    for (const score of scores) {
+      total_score += score
+    }
+    console.log(total_score)
+    console.log(total_score/length)
+    // while문으로 코드 작성
+    let idx = length - 1
+    while(idx >= 0) {
+      console.log(scores[idx])
+      idx -= 1
+    }
+
+  </script>
+</body>
+</html>
