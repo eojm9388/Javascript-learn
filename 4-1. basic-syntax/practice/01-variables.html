@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // let
+    // 재할당 가능
+    let number = 10
+    number = 20
+
+    // 재선언 불가능
+    // let number = 100
+    // Uncaught SyntaxError: Identifier 'number' has already been declared
+    // const
+    // 재할당 불가능
+    const num = 10
+    // num = 20
+    // Uncaught TypeError: Assignment to constant variable.
+    // 재선언 불가능
+    // const num = 100
+    // Uncaught SyntaxError: Identifier 'number' has already been declared
+  </script>
+</body>
+
+</html>
