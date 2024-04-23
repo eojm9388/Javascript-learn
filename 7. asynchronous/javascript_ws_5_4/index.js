@@ -5,7 +5,7 @@
 const fetchAlbum = function(page=1, limit=10) {
   const inputTag = document.querySelector('.search-box__input')
   const keyword = inputTag.value
-  const API_KEY = '9ed4e09387e02290116cc80a9a857c0d'
+  const API_KEY = 'API_KEY'
   const URL = ` http://ws.audioscrobbler.com/2.0/?method=album.search&album=${keyword}&api_key=${API_KEY}&format=json&limit=${limit}&page=${page}`
 
   const searchResult = document.querySelector('.search-result')
