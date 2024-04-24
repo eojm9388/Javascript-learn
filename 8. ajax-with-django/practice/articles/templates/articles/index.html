@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {% if request.user.is_authenticated %}
+    <h2>반갑습니다, {{ user.username }} 님</h2>
+    <a href="{% url "accounts:profile" user.username %}">내 프로필</a>
+    <form action="{% url "accounts:logout" %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="Logout">
+    </form>
+    <form action="{% url "accounts:delete" %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="회원탈퇴">
+    </form>
+    <a href="{% url "accounts:update" %}">회원정보수정</a>
+    <a href="{% url "articles:create" %}">CREATE</a>
+  {% else %}
+    <a href="{% url "accounts:login" %}">Login</a>
+    <a href="{% url "accounts:signup" %}">Signup</a>
+  {% endif %}
+  <h1>Articles</h1>
+  <hr>
+  <article>
+    {% for article in articles %}
+    <p>
+      작성자: 
+      <a href="{% url "accounts:profile" article.user.username %}">{{ article.user }}</a>
+    </p>
+    <p>글 번호: {{ article.pk }}</p>
+    <a href="{% url "articles:detail" article.pk %}">
+      <p>글 제목: {{ article.title }}</p>
+    </a>
+    <p>글 내용: {{ article.content }}</p>
+    <p>{{ article.like_users.all|length }} 명이 이 글을 좋아합니다.</p>
+    <p id="like-count-{{ article.pk }}">{{ article.like_users.count }} 명이 이 글을 좋아합니다.</p>
+    <form id='like-form' data-article-id="{{ article.pk }}">
+      {% csrf_token %}
+      {% if request.user in article.like_users.all %}
+        <input type="submit" value="좋아요 취소" id="like-{{ article.pk }}">
+      {% else %}
+        <input type="submit" value="좋아요" id="like-{{ article.pk }}">
+      {% endif %}
+    </form>
+    <hr>
+  {% endfor %}
+  </article>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const articleTag = document.querySelector('article')
+
+    articleTag.addEventListener('submit', function (event) {
+      event.preventDefault()
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+      const articleId = event.target.dataset.articleId
+      const likeSubmit = document.querySelector(`#like-${articleId}`)
+      const likeCount = document.querySelector(`#like-count-${articleId}`)
+
+      axios({
+        method: 'post',
+        url: `/articles/${articleId}/likes/`,
+        headers: {'X-CSRFToken': csrftoken}
+      })
+        .then(response => {
+          console.log(response.data.liked_count)
+          if (response.data.is_liked) {
+            likeSubmit.value = '좋아요 취소'
+          } else {
+            likeSubmit.value = '좋아요'
+          }
+
+          likeCount.textContent = `${response.data.liked_count} 명이 이 글을 좋아합니다.`
+          
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+
+    })
+  </script>
+</body>
+</html>
